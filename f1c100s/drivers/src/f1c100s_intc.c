@@ -1,19 +1,19 @@
-#include "f1c100s_intc.h"
-#include "io.h"
 #include <stddef.h>
 #include <string.h>
+#include "./f1c100s_intc.h"
+#include "../../arm926/inc/io.h"
 
 static intc_irq_handler irq_handlers[41];
 
 void intc_enable_irq(intc_irq_vector_e irq) {
-    if(irq < 32)
+    if (irq < 32)
         set32(INTC_BASE + INTC_ENABLE0, (1 << irq));
     else
         set32(INTC_BASE + INTC_ENABLE1, (1 << (irq - 32)));
 }
 
 void intc_disable_irq(intc_irq_vector_e irq) {
-    if(irq < 32)
+    if (irq < 32)
         clear32(INTC_BASE + INTC_ENABLE0, (1 << irq));
     else
         clear32(INTC_BASE + INTC_ENABLE1, (1 << (irq - 32)));
@@ -34,14 +34,14 @@ void intc_init(void) {
     write32(INTC_BASE + INTC_ENABLE0, 0); // Disable all interrupts
     write32(INTC_BASE + INTC_ENABLE1, 0);
     memset(irq_handlers, 0, sizeof(irq_handlers)); // Clear handlers table
-    write32(INTC_BASE + INTC_BASE_ADDR, 0); // Set offset to 0
+    write32(INTC_BASE + INTC_BASE_ADDR, 0);        // Set offset to 0
 }
 
 // Global IRQ handler
 void irq_handler(void) {
     uint32_t irq_src = read32(INTC_BASE) >> 2;
 
-    if(irq_handlers[irq_src] != NULL)
+    if (irq_handlers[irq_src] != NULL)
         irq_handlers[irq_src]();
     else
         intc_disable_irq(irq_src); // Disable undefined IRQ, not to get stuck in it

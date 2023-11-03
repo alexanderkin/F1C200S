@@ -1,4 +1,5 @@
-#pragma once
+#ifndef F1C100S_PERIPH_H
+#define F1C100S_PERIPH_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,3 +43,5 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+#endif // F1C100S_PERIPH_H

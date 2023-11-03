@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ARMV5_MMU_H
+#define ARMV5_MMU_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -6,9 +7,9 @@ extern "C" {
 
 typedef enum {
     SECTION_NCNB = 0x0, // not cached, not buffered
-    SECTION_NCB  = 0x1, // not cached, buffered
-    SECTION_CNB  = 0x2, // cached, writethrough
-    SECTION_CB   = 0x3, // cached, writeback
+    SECTION_NCB = 0x1,  // not cached, buffered
+    SECTION_CNB = 0x2,  // cached, writethrough
+    SECTION_CB = 0x3,   // cached, writeback
 } mmu_entry_type_e;
 
 static inline void mmu_map_l1_entry(
@@ -22,7 +23,7 @@ static inline void mmu_map_l1_entry(
     size >>= 20;
     type &= 0x3;
 
-    for(uint32_t i = 0; i < size; i++) {
+    for (uint32_t i = 0; i < size; i++) {
         tbl[virt] = (phys << 20) | (0x3 << 10) | (0x0 << 5) | (type << 2) | (0x2 << 0);
         virt++;
         phys++;
@@ -32,3 +33,5 @@ static inline void mmu_map_l1_entry(
 #ifdef __cplusplus
 }
 #endif
+
+#endif // ARMV5_MMU_H

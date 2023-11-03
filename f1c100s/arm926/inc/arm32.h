@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ARM32_H
+#define ARM32_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -92,3 +93,5 @@ static inline void arm32_tlb_invalidate(void) {
 #ifdef __cplusplus
 }
 #endif
+
+#endif // ARM32_H

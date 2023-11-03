@@ -1,5 +1,5 @@
-#include "f1c100s_pwm.h"
-#include "io.h"
+#include "./f1c100s_pwm.h"
+#include "../../arm926/inc/io.h"
 
 void pwm_init(uint8_t ch, pwm_mode_e mode, uint8_t active_level, pwm_prescaller_e psc) {
     pwm_disable(ch);
@@ -10,13 +10,13 @@ void pwm_init(uint8_t ch, pwm_mode_e mode, uint8_t active_level, pwm_prescaller_
 }
 
 inline void pwm_set_period(uint8_t ch, uint16_t val) {
-    uint32_t reg  = PWM_BASE + PWM_CH0 + ch * 4;
+    uint32_t reg = PWM_BASE + PWM_CH0 + ch * 4;
     uint32_t temp = read32(reg) & ~(0xFFFF << 16);
     write32(reg, temp | ((uint32_t)val << 16));
 }
 
 inline void pwm_set_pulse_len(uint8_t ch, uint16_t val) {
-    uint32_t reg  = PWM_BASE + PWM_CH0 + ch * 4;
+    uint32_t reg = PWM_BASE + PWM_CH0 + ch * 4;
     uint32_t temp = read32(reg) & ~0xFFFF;
     write32(reg, temp | val);
 }

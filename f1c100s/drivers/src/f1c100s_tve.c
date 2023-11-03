@@ -1,8 +1,8 @@
 #include <stddef.h>
 #include <stdlib.h>
-#include "f1c100s_tve.h"
-#include "f1c100s_clock.h"
-#include "io.h"
+#include "./f1c100s_tve.h"
+#include "./f1c100s_clock.h"
+#include "../../arm926/inc/io.h"
 
 void tve_init(tve_mode_e mode) {
     // Determine tve clock division value. PLL_VIDEO should be configured and enabled!
@@ -12,7 +12,7 @@ void tve_init(tve_mode_e mode) {
     clk_reset_clear(CCU_BUS_SOFT_RST1, 10);
 
     write32(TVE_BASE + TVE_DAC1, 0x433810A1);
-    if(mode == TVE_MODE_NTSC) { // NTSC
+    if (mode == TVE_MODE_NTSC) { // NTSC
         write32(TVE_BASE + TVE_CFG1, 0x07030000);
         write32(TVE_BASE + TVE_NOTCH_DELAY, 0x00000120);
         write32(TVE_BASE + TVE_CHROMA_FREQ, 0x21F07C1F);

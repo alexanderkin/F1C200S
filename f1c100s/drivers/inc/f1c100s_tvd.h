@@ -1,11 +1,12 @@
-#pragma once
+#ifndef F1C100S_TVD_H
+#define F1C100S_TVD_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <stdint.h>
-#include "f1c100s_periph.h"
+#include "./f1c100s_periph.h"
 
 typedef enum {
     TVD_REG_000 = 0x000,
@@ -32,11 +33,11 @@ typedef enum {
 
     TVD_DMA_ADDR_Y = 0x080,
     TVD_DMA_ADDR_C = 0x084,
-    TVD_DMA_CFG    = 0x088,
-    TVD_DMA_SIZE   = 0x08C,
+    TVD_DMA_CFG = 0x088,
+    TVD_DMA_SIZE = 0x08C,
     TVD_DMA_STRIDE = 0x090,
-    TVD_DMA_IRQ0   = 0x094, // irq_st?
-    TVD_DMA_IRQ1   = 0x09C, // irq_en?
+    TVD_DMA_IRQ0 = 0x094, // irq_st?
+    TVD_DMA_IRQ1 = 0x09C, // irq_en?
 
     TVD_REG_0B0 = 0x0B0, // ffffffff
     TVD_REG_0B4 = 0x0B4, // ffffffff
@@ -96,9 +97,9 @@ typedef enum {
 } tvd_mode_e;
 
 typedef enum {
-    TVD_BLUE_OFF      = 0,
+    TVD_BLUE_OFF = 0,
     TVD_BLUE_FORCE_ON = 1,
-    TVD_BLUE_AUTO     = 2, // On, if no signal
+    TVD_BLUE_AUTO = 2, // On, if no signal
 } tvd_blue_mode_e;
 
 typedef enum {
@@ -112,17 +113,17 @@ typedef enum {
 
 // Status bits in reg E40
 typedef enum {
-    TVD_ST_NOISY      = (1 << 19),
-    TVD_ST_625_LINES  = (1 << 18),
-    TVD_ST_SECAM      = (1 << 17),
-    TVD_ST_PAL        = (1 << 16),
-    TVD_ST_V_NON_STD  = (1 << 10),
-    TVD_ST_H_NON_STD  = (1 << 9),
-    TVD_ST_PROG_SCAN  = (1 << 8),
+    TVD_ST_NOISY = (1 << 19),
+    TVD_ST_625_LINES = (1 << 18),
+    TVD_ST_SECAM = (1 << 17),
+    TVD_ST_PAL = (1 << 16),
+    TVD_ST_V_NON_STD = (1 << 10),
+    TVD_ST_H_NON_STD = (1 << 9),
+    TVD_ST_PROG_SCAN = (1 << 8),
     TVD_ST_C_PLL_LOCK = (1 << 3),
-    TVD_ST_V_LOCK     = (1 << 2),
-    TVD_ST_H_LOCK     = (1 << 1),
-    TVD_ST_NO_SIGNAL  = (1 << 0),
+    TVD_ST_V_LOCK = (1 << 2),
+    TVD_ST_H_LOCK = (1 << 1),
+    TVD_ST_NO_SIGNAL = (1 << 0),
 } tvd_state_e;
 
 void tvd_init(tvd_mode_e mode, void* buf_y, void* buf_c, uint8_t ch);
@@ -150,3 +151,5 @@ void tvd_disable(void);
 #ifdef __cplusplus
 }
 #endif
+
+#endif // F1C100S_TVD_H

@@ -1,5 +1,5 @@
-#include "f1c100s_gpio.h"
-#include "io.h"
+#include "./f1c100s_gpio.h"
+#include "../../arm926/inc/io.h"
 
 // Configure multiple gpio pins
 void gpio_init(
@@ -8,8 +8,8 @@ void gpio_init(
     gpio_mode_e mode,
     gpio_pull_e pull,
     gpio_drv_e drv) {
-    for(uint8_t i = 0; i < 32; i++) {
-        if(pin_mask & (1U << i)) gpio_pin_init(port, i, mode, pull, drv);
+    for (uint8_t i = 0; i < 32; i++) {
+        if (pin_mask & (1U << i)) gpio_pin_init(port, i, mode, pull, drv);
     }
 }
 
@@ -26,7 +26,7 @@ void gpio_pin_init(
     // Set pin mode
     reg = port + GPIO_CFG0 + (pin_n / 8) * 4; // Get CFG register address
     val = read32(reg);
-    val &= ~(0x7 << ((pin_n % 8) * 4)); // Clear mode bits
+    val &= ~(0x7 << ((pin_n % 8) * 4));         // Clear mode bits
     val |= ((mode & 0x7) << ((pin_n % 8) * 4)); // Set new mode
     write32(reg, val);
 

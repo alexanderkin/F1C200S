@@ -1,4 +1,5 @@
-#pragma once
+#ifndef ARMV5_CACHE_H
+#define ARMV5_CACHE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,3 +25,5 @@ static inline void cache_flush_range(unsigned long start, unsigned long end) {
 #ifdef __cplusplus
 }
 #endif
+
+#endif // ARMV5_CACHE_H

@@ -1,9 +1,9 @@
 #include <stddef.h>
 #include <stdlib.h>
-#include "f1c100s_tvd.h"
-#include "f1c100s_de.h"
-#include "f1c100s_clock.h"
-#include "io.h"
+#include "./f1c100s_tvd.h"
+#include "./f1c100s_de.h"
+#include "./f1c100s_clock.h"
+#include "../../arm926/inc/io.h"
 
 /* TODO:
  *
@@ -59,7 +59,7 @@ void tvd_set_mode(tvd_mode_e mode) {
     write32(TVD_BASE + TVD_REG_F6C, 0x00FFFAD0);
     write32(TVD_BASE + TVD_REG_F70, 0x0000A010);
 
-    switch(mode) {
+    switch (mode) {
     case TVD_MODE_NTSC: // NTSC 720x480
         write32(TVD_BASE + TVD_REG_008, 0x00010001);
         write32(TVD_BASE + TVD_REG_00C, 0x00202068);
@@ -187,7 +187,7 @@ void tvd_set_out_size(uint16_t w, uint16_t h) {
     write32(TVD_BASE + TVD_DMA_SIZE, ((h / 2) << 16) | (w));
     write32(TVD_BASE + TVD_DMA_STRIDE, w);
     set32(TVD_BASE + TVD_DMA_CFG, (1 << 26)); // size_valid ?
-    tvd.width  = w;
+    tvd.width = w;
     tvd.height = h;
 }
 
@@ -217,7 +217,7 @@ static void tvd_dma_disable(void) {
 
 // Input channel select
 void tvd_set_ch(uint8_t ch) {
-    if(ch == 0)
+    if (ch == 0)
         clear32(TVD_BASE + TVD_REG_E04, (1 << 0));
     else
         set32(TVD_BASE + TVD_REG_E04, (1 << 0));

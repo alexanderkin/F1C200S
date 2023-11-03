@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LINKAGE_H
+#define LINKAGE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,3 +26,5 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+#endif // LINKAGE_H

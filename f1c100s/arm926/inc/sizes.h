@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SIZES_H
+#define SIZES_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,3 +38,5 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+#endif // SIZES_H

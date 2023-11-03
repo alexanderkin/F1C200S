@@ -1,5 +1,5 @@
-#include "f1c100s_timer.h"
-#include "io.h"
+#include "./f1c100s_timer.h"
+#include "../../arm926/inc/io.h"
 
 /************** General-purpose imers ***************/
 

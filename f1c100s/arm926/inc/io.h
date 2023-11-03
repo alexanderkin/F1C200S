@@ -1,4 +1,5 @@
-#pragma once
+#ifndef IO_H
+#define IO_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -24,3 +25,5 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+#endif // IO_H

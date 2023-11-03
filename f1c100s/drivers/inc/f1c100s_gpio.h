@@ -1,11 +1,12 @@
-#pragma once
+#ifndef F1C100S_GPIO_H
+#define F1C100S_GPIO_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 #include <stdint.h>
-#include "f1c100s_periph.h"
+#include "./f1c100s_periph.h"
 
 #define GPIOA (GPIO_BASE + 0 * 0x24)
 #define GPIOB (GPIO_BASE + 1 * 0x24)
@@ -36,21 +37,21 @@ typedef enum {
     GPIO_INT_CFG2 = 0x08,
     GPIO_INT_CFG3 = 0x0C,
     GPIO_INT_CTRL = 0x10,
-    GPIO_INT_STA  = 0x14,
-    GPIO_INT_DEB  = 0x18,
+    GPIO_INT_STA = 0x14,
+    GPIO_INT_DEB = 0x18,
 } gpio_int_reg_e;
 
 typedef enum {
-    PIN0  = (1U << 0),
-    PIN1  = (1U << 1),
-    PIN2  = (1U << 2),
-    PIN3  = (1U << 3),
-    PIN4  = (1U << 4),
-    PIN5  = (1U << 5),
-    PIN6  = (1U << 6),
-    PIN7  = (1U << 7),
-    PIN8  = (1U << 8),
-    PIN9  = (1U << 9),
+    PIN0 = (1U << 0),
+    PIN1 = (1U << 1),
+    PIN2 = (1U << 2),
+    PIN3 = (1U << 3),
+    PIN4 = (1U << 4),
+    PIN5 = (1U << 5),
+    PIN6 = (1U << 6),
+    PIN7 = (1U << 7),
+    PIN8 = (1U << 8),
+    PIN9 = (1U << 9),
     PIN10 = (1U << 10),
     PIN11 = (1U << 11),
     PIN12 = (1U << 12),
@@ -66,19 +67,19 @@ typedef enum {
 } gpio_pin_e;
 
 typedef enum {
-    GPIO_MODE_INPUT    = 0,
-    GPIO_MODE_OUTPUT   = 1,
-    GPIO_MODE_AF2      = 2,
-    GPIO_MODE_AF3      = 3,
-    GPIO_MODE_AF4      = 4,
-    GPIO_MODE_AF5      = 5,
-    GPIO_MODE_AF6      = 6,
+    GPIO_MODE_INPUT = 0,
+    GPIO_MODE_OUTPUT = 1,
+    GPIO_MODE_AF2 = 2,
+    GPIO_MODE_AF3 = 3,
+    GPIO_MODE_AF4 = 4,
+    GPIO_MODE_AF5 = 5,
+    GPIO_MODE_AF6 = 6,
     GPIO_MODE_DISABLED = 7,
 } gpio_mode_e;
 
 typedef enum {
     GPIO_PULL_NONE = 0,
-    GPIO_PULL_UP   = 1,
+    GPIO_PULL_UP = 1,
     GPIO_PULL_DOWN = 2,
 } gpio_pull_e;
 
@@ -90,11 +91,11 @@ typedef enum {
 } gpio_drv_e;
 
 typedef enum {
-    EINT_TRG_RISING  = 0,
+    EINT_TRG_RISING = 0,
     EINT_TRG_FALLING = 1,
-    EINT_TRG_HIGH    = 2,
-    EINT_TRG_LOW     = 3,
-    EINT_TRG_DOUBLE  = 4,
+    EINT_TRG_HIGH = 2,
+    EINT_TRG_LOW = 3,
+    EINT_TRG_DOUBLE = 4,
 } eint_trigger_mode_e;
 
 typedef enum {
@@ -103,13 +104,13 @@ typedef enum {
 } eint_debounce_src_e;
 
 typedef enum {
-    EINT_DEB_DIV_1   = 0,
-    EINT_DEB_DIV_2   = 1,
-    EINT_DEB_DIV_4   = 2,
-    EINT_DEB_DIV_8   = 3,
-    EINT_DEB_DIV_16  = 4,
-    EINT_DEB_DIV_32  = 5,
-    EINT_DEB_DIV_64  = 6,
+    EINT_DEB_DIV_1 = 0,
+    EINT_DEB_DIV_2 = 1,
+    EINT_DEB_DIV_4 = 2,
+    EINT_DEB_DIV_8 = 3,
+    EINT_DEB_DIV_16 = 4,
+    EINT_DEB_DIV_32 = 5,
+    EINT_DEB_DIV_64 = 6,
     EINT_DEB_DIV_128 = 7,
 } eint_debounce_div_e;
 
@@ -153,3 +154,5 @@ void eint_pin_clear_status(uint32_t int_port, uint8_t pin_n);
 #ifdef __cplusplus
 }
 #endif
+
+#endif // F1C100S_GPIO_H
