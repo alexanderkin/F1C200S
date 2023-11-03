@@ -9,8 +9,10 @@
 #include "../f1c100s/drivers/inc/f1c100s_uart.h"
 #include "../f1c100s/drivers/inc/f1c100s_clock.h"
 
+uint32_t USED_UART = UART0;
+
 static void sys_clk_init(void);
-static void sys_uart_init(void);
+static void sys_uart_init(uint32_t uart);
 static void sys_mmu_cache_init(void);
 
 static inline void sdelay(int loops);
@@ -20,7 +22,7 @@ uint32_t mmu_l1_tbl[4096] __attribute__((section(".mmu_tbl")));
 
 void system_init(void) {
     sys_clk_init();
-    sys_uart_init();
+    sys_uart_init(UART1);
     sys_mmu_cache_init();
     intc_init();
 }
@@ -56,18 +58,30 @@ static void sys_clk_init(void) {
     sdelay(10);
 }
 
-static void sys_uart_init(void) {
-    gpio_init(
-        GPIOE, PIN0 | PIN1, GPIO_MODE_AF5, GPIO_PULL_NONE, GPIO_DRV_3); // Configure GPIO pins
-    clk_enable(CCU_BUS_CLK_GATE2, 20);                                  // Open the clock gate for uart0
-    clk_reset_clear(CCU_BUS_SOFT_RST2, 20);                             // Deassert uart0 reset
-    uart_init(UART0, 115200);                                           // Configure UART0 to 115200-8-n-1
+static void sys_uart_init(uint32_t uart) {
+    USED_UART = uart;
+    switch (uart) {
+    case UART0:
+        gpio_init(GPIOE, PIN0 | PIN1, GPIO_MODE_AF5, GPIO_PULL_NONE, GPIO_DRV_3); // Configure GPIO pins
+        clk_enable(CCU_BUS_CLK_GATE2, 20);                                  // Open the clock gate for uart0
+        clk_reset_clear(CCU_BUS_SOFT_RST2, 20);                             // Deassert uart0 reset
+        uart_init(UART0, 115200);                                           // Configure UART0 to 115200-8-n-1
+        break;
+    case UART1:
+        gpio_init(GPIOA, PIN2 | PIN3, GPIO_MODE_AF5, GPIO_PULL_NONE, GPIO_DRV_3); // Configure GPIO pins
+        clk_enable(CCU_BUS_CLK_GATE2, 21);                                  // Open the clock gate for uart1
+        clk_reset_clear(CCU_BUS_SOFT_RST2, 21);                             // Deassert uart1 reset
+        uart_init(UART1, 115200);                                           // Configure UART1 to 115200-8-n-1
+        break;
+    default:
+        break;
+    }
 }
 
 void putchar_(char c) {
-    while (!(uart_get_status(UART0) & UART_LSR_THRE))
+    while (!(uart_get_status(USED_UART) & UART_LSR_THRE))
         ;
-    uart_tx(UART0, c);
+    uart_tx(USED_UART, c);
 }
 
 static void sys_mmu_cache_init(void) {
