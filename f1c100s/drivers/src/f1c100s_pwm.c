@@ -1,4 +1,4 @@
-#include "./f1c100s_pwm.h"
+#include "../inc/f1c100s_pwm.h"
 #include "../../arm926/inc/io.h"
 
 void pwm_init(uint8_t ch, pwm_mode_e mode, uint8_t active_level, pwm_prescaller_e psc) {

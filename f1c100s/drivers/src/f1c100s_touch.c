@@ -1,4 +1,4 @@
-#include "./f1c100s_touch.h"
+#include "../inc/f1c100s_touch.h"
 #include "../../arm926/inc/io.h"
 
 void tp_init(void) {

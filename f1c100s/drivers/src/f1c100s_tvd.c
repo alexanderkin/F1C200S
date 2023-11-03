@@ -1,8 +1,8 @@
 #include <stddef.h>
 #include <stdlib.h>
-#include "./f1c100s_tvd.h"
-#include "./f1c100s_de.h"
-#include "./f1c100s_clock.h"
+#include "../inc/f1c100s_tvd.h"
+#include "../inc/f1c100s_de.h"
+#include "../inc/f1c100s_clock.h"
 #include "../../arm926/inc/io.h"
 
 /* TODO:

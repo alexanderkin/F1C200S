@@ -1,5 +1,5 @@
-#include "./f1c100s_uart.h"
-#include "./f1c100s_clock.h"
+#include "../inc/f1c100s_uart.h"
+#include "../inc/f1c100s_clock.h"
 #include "../../arm926/inc/io.h"
 
 // Initialise UART with default settings (no parity, 8bits, 1 stop bit, no flow control)
@@ -23,8 +23,7 @@ void uart_set_baudrate(uint32_t uart, uint32_t baud) {
     write32(uart + UART_LCR, (read32(uart + UART_LCR) | (1 << 7))); // Divisor Latch Access bit set
     write32(uart + UART_DLL, val & 0xFF);                           // Write divisor value
     write32(uart + UART_DLH, (val >> 8) & 0xFF);
-    write32(
-        uart + UART_LCR, (read32(uart + UART_LCR) & ~(1 << 7))); // Divisor Latch Access bit clear
+    write32(uart + UART_LCR, (read32(uart + UART_LCR) & ~(1 << 7))); // Divisor Latch Access bit clear
 }
 
 void uart_set_parity(uint32_t uart, uart_parity_e par) {

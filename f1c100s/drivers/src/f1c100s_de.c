@@ -1,7 +1,7 @@
 #include <string.h>
-#include "./f1c100s_de.h"
-#include "./f1c100s_tve.h"
-#include "./f1c100s_clock.h"
+#include "../inc/f1c100s_de.h"
+#include "../inc/f1c100s_tve.h"
+#include "../inc/f1c100s_clock.h"
 #include "../../arm926/inc/io.h"
 
 static void debe_update_linewidth(uint8_t layer);

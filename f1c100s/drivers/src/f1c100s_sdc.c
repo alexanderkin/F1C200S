@@ -1,8 +1,8 @@
 #include <stdint.h>
 #include <stddef.h>
-#include "./f1c100s_sdc.h"
-#include "./f1c100s_gpio.h"
-#include "./f1c100s_clock.h"
+#include "../inc/f1c100s_sdc.h"
+#include "../inc/f1c100s_gpio.h"
+#include "../inc/f1c100s_clock.h"
 #include "../../arm926/inc/io.h"
 
 static uint8_t sdc_transfer_command(uint32_t sdc_base, sdc_cmd_t* cmd, sdc_data_t* dat);

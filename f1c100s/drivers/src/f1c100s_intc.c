@@ -1,6 +1,6 @@
 #include <stddef.h>
 #include <string.h>
-#include "./f1c100s_intc.h"
+#include "../inc/f1c100s_intc.h"
 #include "../../arm926/inc/io.h"
 
 static intc_irq_handler irq_handlers[41];

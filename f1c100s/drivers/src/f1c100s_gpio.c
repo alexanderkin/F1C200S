@@ -1,4 +1,4 @@
-#include "./f1c100s_gpio.h"
+#include "../inc/f1c100s_gpio.h"
 #include "../../arm926/inc/io.h"
 
 // Configure multiple gpio pins

@@ -1,7 +1,7 @@
 #include <stddef.h>
 #include <stdlib.h>
-#include "./f1c100s_tve.h"
-#include "./f1c100s_clock.h"
+#include "../inc/f1c100s_tve.h"
+#include "../inc/f1c100s_clock.h"
 #include "../../arm926/inc/io.h"
 
 void tve_init(tve_mode_e mode) {

@@ -1,4 +1,4 @@
-#include "./f1c100s_clock.h"
+#include "../inc/f1c100s_clock.h"
 #include "../../arm926/inc/io.h"
 
 static void pll_cpu_init(uint8_t mul, uint8_t div);
