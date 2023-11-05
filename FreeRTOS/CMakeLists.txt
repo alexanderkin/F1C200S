@@ -29,7 +29,7 @@ aux_source_directory(${SYSCALLS_PATH} SYSCALLS_SRC)
 
 set(FREERTOS_PATH ${CMAKE_SOURCE_DIR}/FreeRTOS)
 include_directories(${FREERTOS_PATH}/include/)
-set(PROJECT_SRC ${FREERTOS_PATH}/croutine.c ${FREERTOS_PATH}/event_groups.c ${FREERTOS_PATH}/heap_4.c 
+set(PROJECT_SRC ${FREERTOS_PATH}/croutine.c ${FREERTOS_PATH}/event_groups.c ${FREERTOS_PATH}/heap_1.c 
 ${FREERTOS_PATH}/list.c ${FREERTOS_PATH}/port.c ${FREERTOS_PATH}/portISR.c ${FREERTOS_PATH}/queue.c 
 ${FREERTOS_PATH}/stream_buffer.c ${FREERTOS_PATH}/tasks.c ${FREERTOS_PATH}/tasks.c)
 

@@ -19,6 +19,10 @@ set(DRIVER_PATH ${CMAKE_SOURCE_DIR}/f1c100s/drivers/)
 include_directories(${DRIVER_PATH}/inc)
 aux_source_directory(${DRIVER_PATH}/src DRIVER_SRC)
 
+set(DPGFX_PATH ${CMAKE_SOURCE_DIR}/lib/display_gfx)
+include_directories(${DPGFX_PATH})
+aux_source_directory(${DPGFX_PATH} DPGFX_SRC)
+
 set(PRINTF_PATH ${CMAKE_SOURCE_DIR}/lib/printf)
 include_directories(${PRINTF_PATH})
 aux_source_directory(${PRINTF_PATH} PRINTF_SRC)
@@ -31,7 +35,7 @@ set(BOOT_PATH ${CMAKE_SOURCE_DIR}/boot)
 include_directories(${BOOT_PATH})
 aux_source_directory(${BOOT_PATH} PROJECT_SRC)
 
-add_executable(${PROJECT_NAME} ${PROJECT_SRC} ${ASM_SRC} ${DRIVER_SRC} ${PRINTF_SRC} ${SYSCALLS_SRC})
+add_executable(${PROJECT_NAME} ${PROJECT_SRC} ${ASM_SRC} ${DRIVER_SRC} ${DPGFX_SRC} ${PRINTF_SRC} ${SYSCALLS_SRC})
 
 target_link_libraries(${PROJECT_NAME} gcc m c_nano)
 

@@ -174,7 +174,7 @@ extern void ( vTickISR )( void );
 static void prvSetupTimerInterrupt( void )
 {
 	tim_init(TIM0, TIM_MODE_CONT, TIM_SRC_HOSC, TIM_PSC_1);
-    tim_set_period(TIM0, 24000000UL / 1000UL);
+    tim_set_period(TIM0, 24000000UL * 1UL);
     tim_int_enable(TIM0);
     intc_set_irq_handler(IRQ_TIMER0, vTickISR);
     intc_enable_irq(IRQ_TIMER0);
