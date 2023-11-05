@@ -5,5 +5,5 @@ fi
 cd build
 rm -rf *
 cmake -G "Unix Makefiles" ..
-make -j8
+make
 cd ..

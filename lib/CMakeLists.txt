@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 
-project(FREERTOS)
+project(F1C100S_LIB)
 
 # 设置编译器标志
 set(DRAM_SIZE              "64M")
@@ -11,12 +11,18 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostartfiles -Xlinker --g
 # 设置宏定义
 add_definitions("-DLOAD_HEADER -D__ARM32_ARCH__=5 -D__ARM926EJS__ -DPRINTF_ALIAS_STANDARD_FUNCTION_NAMES=1 -DPRINTF_ALIAS_STANDARD_FUNCTION_NAMES_HARD=1")
 
-set(FREERTOS_PATH ${CMAKE_CURRENT_LIST_DIR})
-include_directories(${FREERTOS_PATH}/include/)
-set(PROJECT_SRC ${FREERTOS_PATH}/croutine.c ${FREERTOS_PATH}/event_groups.c ${FREERTOS_PATH}/heap_1.c 
-${FREERTOS_PATH}/list.c ${FREERTOS_PATH}/port.c ${FREERTOS_PATH}/portISR.c ${FREERTOS_PATH}/queue.c 
-${FREERTOS_PATH}/stream_buffer.c ${FREERTOS_PATH}/tasks.c ${FREERTOS_PATH}/tasks.c)
+set(DPGFX_PATH ${CMAKE_CURRENT_LIST_DIR}/display_gfx)
+include_directories(${DPGFX_PATH})
+aux_source_directory(${DPGFX_PATH} DPGFX_SRC)
 
-add_library(${PROJECT_NAME} ${PROJECT_SRC})
+set(PRINTF_PATH ${CMAKE_CURRENT_LIST_DIR}/printf)
+include_directories(${PRINTF_PATH})
+aux_source_directory(${PRINTF_PATH} PRINTF_SRC)
+
+set(SYSCALLS_PATH ${CMAKE_CURRENT_LIST_DIR}/syscalls)
+include_directories(${SYSCALLS_PATH})
+aux_source_directory(${SYSCALLS_PATH} SYSCALLS_SRC)
+
+add_library(${PROJECT_NAME} ${DPGFX_SRC} ${PRINTF_SRC} ${SYSCALLS_SRC})
 
 target_link_libraries(${PROJECT_NAME} F1C100S_DRIVER gcc m c_nano)

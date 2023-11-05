@@ -11,33 +11,13 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostartfiles -Xlinker --g
 # 设置宏定义
 add_definitions("-DLOAD_HEADER -D__ARM32_ARCH__=5 -D__ARM926EJS__ -DPRINTF_ALIAS_STANDARD_FUNCTION_NAMES=1 -DPRINTF_ALIAS_STANDARD_FUNCTION_NAMES_HARD=1")
 
-set(ASM_PATH ${CMAKE_SOURCE_DIR}/f1c100s/arm926/)
-include_directories(${ASM_PATH}/inc)
-file(GLOB_RECURSE ASM_SRC ${ASM_PATH}/src/*.S)
-
-set(DRIVER_PATH ${CMAKE_SOURCE_DIR}/f1c100s/drivers/)
-include_directories(${DRIVER_PATH}/inc)
-aux_source_directory(${DRIVER_PATH}/src DRIVER_SRC)
-
-set(DPGFX_PATH ${CMAKE_SOURCE_DIR}/lib/display_gfx)
-include_directories(${DPGFX_PATH})
-aux_source_directory(${DPGFX_PATH} DPGFX_SRC)
-
-set(PRINTF_PATH ${CMAKE_SOURCE_DIR}/lib/printf)
-include_directories(${PRINTF_PATH})
-aux_source_directory(${PRINTF_PATH} PRINTF_SRC)
-
-set(SYSCALLS_PATH ${CMAKE_SOURCE_DIR}/lib/syscalls)
-include_directories(${SYSCALLS_PATH})
-aux_source_directory(${SYSCALLS_PATH} SYSCALLS_SRC)
-
-set(PROJECT_PATH ${CMAKE_SOURCE_DIR}/projects)
+set(PROJECT_PATH ${CMAKE_CURRENT_LIST_DIR})
 include_directories(${PROJECT_PATH})
 aux_source_directory(${PROJECT_PATH} PROJECT_SRC)
 
-add_executable(${PROJECT_NAME} ${PROJECT_SRC} ${ASM_SRC} ${DRIVER_SRC} ${DPGFX_SRC} ${PRINTF_SRC} ${SYSCALLS_SRC})
+add_executable(${PROJECT_NAME} ${PROJECT_SRC})
 
-target_link_libraries(${PROJECT_NAME} FREERTOS gcc m c_nano)
+target_link_libraries(${PROJECT_NAME} F1C100S_DRIVER F1C100S_LIB FREERTOS gcc m c_nano)
 
 set(ELF_FILE "${CMAKE_SOURCE_DIR}/build/projects/${PROJECT_NAME}")
 set(BIN_FILE "${CMAKE_SOURCE_DIR}/build/projects/${PROJECT_NAME}.bin")
