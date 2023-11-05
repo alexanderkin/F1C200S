@@ -1,55 +1,38 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.26)
 
-# User is responsible to set two mandatory options:
-# FREERTOS_CONFIG_FILE_DIRECTORY
-# FREERTOS_PORT
-#
-# User can choose which heap implementation to use (either the implementations
-# included with FreeRTOS [1..5] or a custom implementation ) by providing the
-# option FREERTOS_HEAP. If the option is not set, the cmake will default to
-# using heap_4.c.
+project(FREERTOS)
 
-# Absolute path to FreeRTOS config file directory
-set(FREERTOS_CONFIG_FILE_DIRECTORY "${CMAKE_SOURCE_DIR}/FreeRTOS" CACHE STRING "Absolute path to the directory with FreeRTOSConfig.h")
+# 设置编译器标志
+set(DRAM_SIZE              "64M")
+set(CMAKE_C_FLAGS          "${CMAKE_C_FLAGS} -Os -march=armv5te -mtune=arm926ej-s -mfloat-abi=soft -marm -mno-thumb-interwork -g -ggdb -Wall -fdata-sections -ffunction-sections -ffreestanding -std=gnu99 -fomit-frame-pointer -Wall -fverbose-asm")
+set(CMAKE_ASM_FLAGS        "${CMAKE_C_FLAGS} -x assembler-with-cpp")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -nostartfiles -Xlinker --gc-sections -T${CMAKE_SOURCE_DIR}/f1c100s/f1c100s_dram.ld -Wl,--defsym=DRAM_SIZE=${DRAM_SIZE},-Map=${PROJECT_NAME}.map,--cref,--no-warn-mismatch")
 
-if(NOT FREERTOS_CONFIG_FILE_DIRECTORY)
-    message(FATAL_ERROR " FreeRTOSConfig.h file directory not specified. Please specify absolute path to it from top-level CMake file:\n"
-        "  set(FREERTOS_CONFIG_FILE_DIRECTORY <absolute path to FreeRTOSConfig.h directory> CACHE STRING \"\")\n"
-        " or from CMake command line option:\n"
-        "  -DFREERTOS_CONFIG_FILE_DIRECTORY='/absolute_path/to/FreeRTOSConfig.h/directory'")
-elseif(NOT EXISTS ${FREERTOS_CONFIG_FILE_DIRECTORY}/FreeRTOSConfig.h)
-    message(FATAL_ERROR " FreeRTOSConfig.h file not found in the directory specified (${FREERTOS_CONFIG_FILE_DIRECTORY})\n"
-        " Please specify absolute path to it from top-level CMake file:\n"
-        "  set(FREERTOS_CONFIG_FILE_DIRECTORY <absolute path to FreeRTOSConfig.h directory> CACHE STRING \"\")\n"
-        " or from CMake command line option:\n"
-        "  -DFREERTOS_CONFIG_FILE_DIRECTORY='/absolute_path/to/FreeRTOSConfig.h/directory'")
-endif()
+# 设置宏定义
+add_definitions("-DLOAD_HEADER -D__ARM32_ARCH__=5 -D__ARM926EJS__ -DPRINTF_ALIAS_STANDARD_FUNCTION_NAMES=1 -DPRINTF_ALIAS_STANDARD_FUNCTION_NAMES_HARD=1")
 
-# Heap number or absolute path to custom heap implementation provided by user
-set(FREERTOS_HEAP "4" CACHE STRING "FreeRTOS heap model number. 1 .. 5. Or absolute path to custom heap source file")
+set(ASM_PATH ${CMAKE_SOURCE_DIR}/f1c100s/arm926/)
+include_directories(${ASM_PATH}/inc)
+file(GLOB_RECURSE ASM_SRC ${ASM_PATH}/src/*.S)
 
-# FreeRTOS port option
-set(FREERTOS_PORT "GCC_ARM9_F1C200S" CACHE STRING "FreeRTOS port name")
+set(DRIVER_PATH ${CMAKE_SOURCE_DIR}/f1c100s/drivers/)
+include_directories(${DRIVER_PATH}/inc)
+aux_source_directory(${DRIVER_PATH}/src DRIVER_SRC)
 
-add_subdirectory(portable)
+set(PRINTF_PATH ${CMAKE_SOURCE_DIR}/lib/printf)
+include_directories(${PRINTF_PATH})
+aux_source_directory(${PRINTF_PATH} PRINTF_SRC)
 
-add_library(freertos_kernel STATIC
-    croutine.c
-    event_groups.c
-    list.c
-    queue.c
-    stream_buffer.c
-    tasks.c
-    timers.c
+set(SYSCALLS_PATH ${CMAKE_SOURCE_DIR}/lib/syscalls)
+include_directories(${SYSCALLS_PATH})
+aux_source_directory(${SYSCALLS_PATH} SYSCALLS_SRC)
 
-    # If FREERTOS_HEAP is digit between 1 .. 5 - it is heap number, otherwise - it is path to custom heap source file
-    $<IF:$<BOOL:$<FILTER:${FREERTOS_HEAP},EXCLUDE,^[1-5]$>>,${FREERTOS_HEAP},portable/MemMang/heap_${FREERTOS_HEAP}.c>
-)
+set(FREERTOS_PATH ${CMAKE_SOURCE_DIR}/FreeRTOS)
+include_directories(${FREERTOS_PATH}/include/)
+set(PROJECT_SRC ${FREERTOS_PATH}/croutine.c ${FREERTOS_PATH}/event_groups.c ${FREERTOS_PATH}/heap_4.c 
+${FREERTOS_PATH}/list.c ${FREERTOS_PATH}/port.c ${FREERTOS_PATH}/portISR.c ${FREERTOS_PATH}/queue.c 
+${FREERTOS_PATH}/stream_buffer.c ${FREERTOS_PATH}/tasks.c ${FREERTOS_PATH}/tasks.c)
 
-target_include_directories(freertos_kernel
-    PUBLIC
-        include
-        ${FREERTOS_CONFIG_FILE_DIRECTORY}
-)
+add_library(${PROJECT_NAME} ${PROJECT_SRC} ${ASM_SRC} ${DRIVER_SRC} ${PRINTF_SRC} ${SYSCALLS_SRC})
 
-target_link_libraries(freertos_kernel freertos_kernel_port)
+target_link_libraries(${PROJECT_NAME} gcc m c_nano)

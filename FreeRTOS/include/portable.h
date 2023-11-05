@@ -44,14 +44,13 @@
  * specific constants has been moved into the deprecated_definitions.h header
  * file. */
 #include "deprecated_definitions.h"
-#include "projdefs.h"
 
 /* If portENTER_CRITICAL is not defined then including deprecated_definitions.h
  * did not result in a portmacro.h header file being included - and it should be
  * included here.  In this case the path to the correct portmacro.h header file
  * must be set in the compiler's include path. */
 #ifndef portENTER_CRITICAL
-    #include "../portable/GCC/ARM9_F1C200S/portmacro.h"
+    #include "portmacro.h"
 #endif
 
 #if portBYTE_ALIGNMENT == 32

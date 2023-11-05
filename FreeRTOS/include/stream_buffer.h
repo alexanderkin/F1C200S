@@ -56,8 +56,6 @@
     #error "include FreeRTOS.h must appear in source files before include stream_buffer.h"
 #endif
 
-#include "portable.h"
-
 /* *INDENT-OFF* */
 #if defined( __cplusplus )
     extern "C" {

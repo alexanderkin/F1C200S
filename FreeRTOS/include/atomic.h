@@ -44,7 +44,6 @@
 
 /* Standard includes. */
 #include <stdint.h>
-#include "portable.h"
 
 /* *INDENT-OFF* */
 #ifdef __cplusplus

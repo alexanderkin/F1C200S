@@ -94,8 +94,6 @@
     #define configLIST_VOLATILE
 #endif /* configSUPPORT_CROSS_MODULE_OPTIMISATION */
 
-#include "portable.h"
-
 /* *INDENT-OFF* */
 #ifdef __cplusplus
     extern "C" {

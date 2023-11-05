@@ -53,15 +53,10 @@
 
 
 /* Scheduler includes. */
-#include "../../../include/FreeRTOS.h"
-#include "../../../include/task.h"
-#include "../../../../f1c100s/drivers/inc/f1c100s_timer.h"
-#include "../../../../f1c100s/drivers/inc/f1c100s_intc.h"
-#include "../../../../projects/system.h"
-
-/* Constants required to handle interrupts. */
-#define portTIMER_MATCH_ISR_BIT		( ( uint8_t ) 0x01 )
-#define portCLEAR_VIC_INTERRUPT		( ( uint32_t ) 0 )
+#include "./include/FreeRTOS.h"
+#include "../f1c100s/drivers/inc/f1c100s_timer.h"
+#include "../f1c100s/drivers/inc/f1c100s_intc.h"
+#include "../projects/system.h"
 
 /* Constants required to handle critical sections. */
 #define portNO_CRITICAL_NESTING		( ( uint32_t ) 0 )
@@ -119,6 +114,7 @@ void vPortYieldProcessor( void )
 void vTickISR( void ) __attribute__((naked));
 void vTickISR( void )
 {
+	putchar_('8');
 	/* Save the context of the interrupted task. */
 	portSAVE_CONTEXT();
 
@@ -132,14 +128,10 @@ void vTickISR( void )
 		"	bl vTaskSwitchContext	\t\n" \
 		"SkipContextSwitch:			\t\n"
 	);
-	// if (xTaskIncrementTick() != 0) {
-	// 	vTaskSwitchContext();
-	// }
-	putchar_('v');
+
 	/* Ready for the next interrupt. */
-	// T0_IR = portTIMER_MATCH_ISR_BIT;
-	// VICVectAddr = portCLEAR_VIC_INTERRUPT;
-    tim_clear_irq(TIM1);
+	tim_clear_irq(TIM0);
+
 	/* Restore the context of the new task. */
 	portRESTORE_CONTEXT();
 }
