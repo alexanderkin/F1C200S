@@ -17,7 +17,7 @@ aux_source_directory(${PROJECT_PATH} PROJECT_SRC)
 
 add_executable(${PROJECT_NAME} ${PROJECT_SRC})
 
-target_link_libraries(${PROJECT_NAME} F1C100S_DRIVER F1C100S_LIB FREERTOS gcc m c_nano)
+target_link_libraries(${PROJECT_NAME} F1C100S_DRIVER F1C100S_LIB gcc m c_nano)
 
 set(ELF_FILE "${CMAKE_SOURCE_DIR}/build/projects/${PROJECT_NAME}")
 set(BIN_FILE "${CMAKE_SOURCE_DIR}/build/projects/${PROJECT_NAME}.bin")

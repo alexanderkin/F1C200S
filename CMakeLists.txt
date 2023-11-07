@@ -28,6 +28,5 @@ project(F1C100S)
 
 add_subdirectory(f1c100s)
 add_subdirectory(lib)
-add_subdirectory(FreeRTOS)
 add_subdirectory(boot)
 add_subdirectory(projects)

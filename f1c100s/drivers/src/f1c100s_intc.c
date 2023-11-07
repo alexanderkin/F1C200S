@@ -43,6 +43,7 @@ void irq_handler(void) {
     uint32_t irq_src = read32(INTC_BASE) >> 2;
 
     if (irq_handlers[irq_src] != NULL) {
+        
         irq_handlers[irq_src]();
     } else {
         intc_disable_irq(irq_src); // Disable undefined IRQ, not to get stuck in it

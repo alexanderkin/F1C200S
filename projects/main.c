@@ -11,40 +11,47 @@
 #include "../f1c100s/drivers/inc/f1c100s_gpio.h"
 #include "../f1c100s/drivers/inc/f1c100s_uart.h"
 #include "../f1c100s/drivers/inc/f1c100s_pwm.h"
-#include "../FreeRTOS/include/FreeRTOS.h"
-#include "../FreeRTOS/include/task.h"
 
-static void Task1(void* pvParameters) {
-    (void)pvParameters;
-    while (1) {
-        uart_tx(UART1, '1');
-        lcd_fill(50, 40, 100, 100, COLOR_BLUE);
-        vTaskDelay(1000);
-    }
-}
-
-static void MainTask(void* pvParameters) {
-    (void)pvParameters;
-    while (1) {
-        uart_tx(UART1, '0');
-        lcd_fill(50, 40, 100, 100, COLOR_RED);
-        vTaskDelay(1000);
-    }
-}
+void delay(uint32_t t);
+void timer_init(void);
+void timer_irq_handler(void);
+volatile uint8_t tick_flag = 0;
 
 int main(void) {
     system_init();            // Initialize clocks, mmu, cache, uart, ...
     arm32_interrupt_enable(); // Enable interrupts
-    display_init();
-    display_set_bl(100);
-    lcd_init(0);
+    timer_init();
 
-    // 创建任务
-    xTaskCreate(MainTask, "MainTask", 1024, NULL, 3, NULL);
-    xTaskCreate(Task1, "Task1", 1024, NULL, 3, NULL);
-    // 启动任务
-    vTaskStartScheduler();
-    while (1) { }
+    while (1) { 
+        printf("Hello World\r\n");
+        delay(1000);
+    }
     return 0;
 }
 
+void timer_init(void) {
+    // Configure timer to generate update event every 1ms
+    tim_init(TIM0, TIM_MODE_CONT, TIM_SRC_HOSC, TIM_PSC_1);
+    tim_set_period(TIM0, 24000000UL / 1000UL);
+    tim_int_enable(TIM0);
+    // IRQ configuration
+    intc_set_irq_handler(IRQ_TIMER0, timer_irq_handler);
+    intc_enable_irq(IRQ_TIMER0);
+
+    tim_start(TIM0);
+}
+
+void timer_irq_handler(void) {
+    tick_flag = 1;
+    tim_clear_irq(TIM0);
+}
+
+void delay(uint32_t t) {
+    while(1) {
+        if(t == 0) return;
+        if(tick_flag == 1) {
+            tick_flag = 0;
+            t--;
+        }
+    }
+}
